@@ -15,9 +15,9 @@
     ],
     "require": {
         "php": ">=5.4.1",
-        "sabre/vobject" : "~3.1.0",
-        "sabre/event" : "~1.0.0",
-        "sabre/http" : "~2.0.0-alpha5",
+        "sabre/vobject" : "dev-hhvm as 3.1.2",
+        "sabre/http"    : "dev-hhvm as 2.0.0-alpha5",
+        "sabre/event"   : "dev-hhvm as 1.0.0",
         "ext-dom": "*",
         "ext-pcre": "*",
         "ext-spl": "*",
