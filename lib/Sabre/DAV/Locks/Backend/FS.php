@@ -17,9 +17,9 @@ use Sabre\DAV\Locks\LockInfo;
  * You are recommended to use either the PDO or the File backend instead.
  *
  * @deprecated
- * @copyright Copyright (C) 2007-2013 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) 2007-2014 fruux GmbH (https://fruux.com/).
  * @author Evert Pot (http://evertpot.com/)
- * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
+ * @license http://sabre.io/license/ Modified BSD License
  */
 class FS extends AbstractBackend {
 
@@ -158,6 +158,7 @@ class FS extends AbstractBackend {
         }
 
         // We're all good
+        flock($handle,LOCK_UN);
         fclose($handle);
 
         // Unserializing and checking if the resource file contains data for this file
@@ -185,9 +186,9 @@ class FS extends AbstractBackend {
         rewind($handle);
 
         fwrite($handle,serialize($newData));
+        flock($handle,LOCK_UN);
         fclose($handle);
 
     }
 
 }
-

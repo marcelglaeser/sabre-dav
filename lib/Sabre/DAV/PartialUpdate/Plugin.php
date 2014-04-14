@@ -17,9 +17,9 @@ use
  * $patchPlugin = new \Sabre\DAV\PartialUpdate\Plugin();
  * $server->addPlugin($patchPlugin);
  *
- * @copyright Copyright (C) 2007-2013 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) 2007-2014 fruux GmbH (https://fruux.com/).
  * @author Jean-Tiare LE BIGOT (http://www.jtlebi.fr/)
- * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
+ * @license http://sabre.io/license/ Modified BSD License
  */
 class Plugin extends DAV\ServerPlugin {
 
@@ -144,13 +144,10 @@ class Plugin extends DAV\ServerPlugin {
         if($end - $start + 1 != $len)
             throw new DAV\Exception\RequestedRangeNotSatisfiable('Actual data length (' . $len . ') is not consistent with begin (' . $range[0] . ') and end (' . $range[1] . ') offsets');
 
-        // Checking If-None-Match and related headers.
-        if (!$this->server->checkPreconditions()) return;
-
         if (!$this->server->emit('beforeWriteContent', [$path, $node, null]))
             return;
 
-        $body = $request->getBody();
+        $body = $request->getBodyAsStream();
         $etag = $node->putRange($body, $start-1);
 
         $this->server->emit('afterWriteContent', [$path, $node]);

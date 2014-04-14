@@ -17,9 +17,9 @@ use
  * This plugin provides functionality added by CalDAV (RFC 4791)
  * It implements new reports, and the MKCALENDAR method.
  *
- * @copyright Copyright (C) 2007-2013 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) 2007-2014 fruux GmbH (https://fruux.com/).
  * @author Evert Pot (http://evertpot.com/)
- * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
+ * @license http://sabre.io/license/ Modified BSD License
  */
 class Plugin extends DAV\ServerPlugin {
 
@@ -315,7 +315,7 @@ class Plugin extends DAV\ServerPlugin {
         //    throw new \Sabre\DAV\Exception\Forbidden('iCal has major bugs in it\'s RFC3744 support. Therefore we are left with no other choice but disabling this feature.');
         //}
 
-        $body = $request->getBody($asString = true);
+        $body = $request->getBodyAsString();
         $path = $request->getPath();
 
         $properties = array();
@@ -644,7 +644,7 @@ class Plugin extends DAV\ServerPlugin {
 
         // If we're dealing with a calendar, the calendar itself is responsible
         // for the calendar-query.
-        if ($node instanceof ICalendar && $depth = 1) {
+        if ($node instanceof ICalendar && $depth == 1) {
 
             $nodePaths = $node->calendarQuery($parser->filters);
 
@@ -830,7 +830,6 @@ class Plugin extends DAV\ServerPlugin {
         if (!$node instanceof Notifications\INode)
             return;
 
-        if (!$this->server->checkPreconditions(true)) return false;
         $dom = new \DOMDocument('1.0', 'UTF-8');
 
         $dom->formatOutput = true;
@@ -970,7 +969,7 @@ class Plugin extends DAV\ServerPlugin {
 
         // Parsing the request body
         try {
-            $vObject = VObject\Reader::read($this->server->httpRequest->getBody(true));
+            $vObject = VObject\Reader::read($this->server->httpRequest->getBody());
         } catch (VObject\ParseException $e) {
             throw new DAV\Exception\BadRequest('The request body must be a valid iCalendar object. Parse error: ' . $e->getMessage());
         }

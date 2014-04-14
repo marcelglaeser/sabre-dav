@@ -70,7 +70,7 @@ namespace Sabre\CalDAV\Backend;
  * In the case of an invite, the sharee may reply with an 'accept' or
  * 'decline'. These are always represented by:
  *
- * Sabre\CalDAV\Notifications\Notification\Invite
+ * Sabre\CalDAV\Notifications\Notification\InviteReply
  *
  *
  * Calendar access by sharees
@@ -136,7 +136,7 @@ namespace Sabre\CalDAV\Backend;
  *   * unpublished
  *
  * If a calendar is published, the following property should be returned
- * for each calendar in getCalendarsForPrincipal.
+ * for each calendar in getCalendarsForUser.
  *
  * {http://calendarserver.org/ns/}publish-url
  *
@@ -157,7 +157,7 @@ namespace Sabre\CalDAV\Backend;
  * ==============================================
  *
  * If Sabre\CalDAV\Property\AllowedSharingModes is returned from
- * getCalendarsByUser, this allows the server to specify whether either sharing,
+ * getCalendarsForUser, this allows the server to specify whether either sharing,
  * or publishing is supported.
  *
  * This allows a client to determine in advance which features are available,
@@ -165,9 +165,9 @@ namespace Sabre\CalDAV\Backend;
  * the backend, the SharingPlugin automatically injects it and assumes both
  * features are available.
  *
- * @copyright Copyright (C) 2007-2013 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) 2007-2014 fruux GmbH (https://fruux.com/).
  * @author Evert Pot (http://evertpot.com/)
- * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
+ * @license http://sabre.io/license/ Modified BSD License
  */
 interface SharingSupport extends NotificationSupport {
 

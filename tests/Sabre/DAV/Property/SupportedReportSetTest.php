@@ -18,7 +18,7 @@ class SupportedReportSetTest extends DAV\AbstractServer {
             'HTTP_DEPTH'          => '0',
         );
 
-        $request = HTTP\Request::createFromServerArray($serverVars);
+        $request = HTTP\Sapi::createFromServerArray($serverVars);
         $request->setBody($body);
 
         $this->server->httpRequest = ($request);
@@ -27,7 +27,6 @@ class SupportedReportSetTest extends DAV\AbstractServer {
     }
 
     /**
-     * @covers Sabre\DAV\Property\SupportedReportSet
      */
     function testNoReports() {
 
@@ -40,7 +39,7 @@ class SupportedReportSetTest extends DAV\AbstractServer {
 
         $this->sendPROPFIND($xml);
 
-        $this->assertEquals('207 Multi-Status',$this->response->status,'We expected a multi-status response. Full response body: ' . $this->response->body);
+        $this->assertEquals(207, $this->response->status,'We expected a multi-status response. Full response body: ' . $this->response->body);
 
         $body = preg_replace("/xmlns(:[A-Za-z0-9_])?=(\"|\')DAV:(\"|\')/","xmlns\\1=\"urn:DAV\"",$this->response->body);
         $xml = simplexml_load_string($body);
@@ -60,7 +59,6 @@ class SupportedReportSetTest extends DAV\AbstractServer {
     }
 
     /**
-     * @covers Sabre\DAV\Property\SupportedReportSet
      * @depends testNoReports
      */
     function testCustomReport() {
@@ -77,7 +75,7 @@ class SupportedReportSetTest extends DAV\AbstractServer {
 
         $this->sendPROPFIND($xml);
 
-        $this->assertEquals('207 Multi-Status',$this->response->status,'We expected a multi-status response. Full response body: ' . $this->response->body);
+        $this->assertEquals(207, $this->response->status,'We expected a multi-status response. Full response body: ' . $this->response->body);
 
         $body = preg_replace("/xmlns(:[A-Za-z0-9_])?=(\"|\')DAV:(\"|\')/","xmlns\\1=\"urn:DAV\"",$this->response->body);
         $xml = simplexml_load_string($body);

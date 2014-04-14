@@ -11,28 +11,17 @@ class GetIfConditionsTest extends AbstractServer {
 
     function testNoConditions() {
 
-        $serverVars = array(
-        );
+        $request = new HTTP\Request();
 
-        $request = HTTP\Request::createFromServerArray($serverVars);
-        $this->server->httpRequest = ($request);
-
-        $conditions = $this->server->getIfConditions();
+        $conditions = $this->server->getIfConditions($request);
         $this->assertEquals(array(),$conditions);
 
     }
 
     function testLockToken() {
 
-        $serverVars = array(
-            'HTTP_IF' => '(<opaquelocktoken:token1>)',
-            'REQUEST_URI' => '/path/',
-        );
-
-        $request = HTTP\Request::createFromServerArray($serverVars);
-        $this->server->httpRequest = ($request);
-
-        $conditions = $this->server->getIfConditions();
+        $request = new HTTP\Request('GET', '/path/', ['If' => '(<opaquelocktoken:token1>)']);
+        $conditions = $this->server->getIfConditions($request);
 
         $compare = array(
 
@@ -61,10 +50,8 @@ class GetIfConditionsTest extends AbstractServer {
             'REQUEST_URI' => '/bla'
         );
 
-        $request = HTTP\Request::createFromServerArray($serverVars);
-        $this->server->httpRequest = ($request);
-
-        $conditions = $this->server->getIfConditions();
+        $request = HTTP\Sapi::createFromServerArray($serverVars);
+        $conditions = $this->server->getIfConditions($request);
 
         $compare = array(
 
@@ -91,10 +78,8 @@ class GetIfConditionsTest extends AbstractServer {
             'HTTP_IF' => '<http://www.example.com/> (<opaquelocktoken:token1>)',
         );
 
-        $request = HTTP\Request::createFromServerArray($serverVars);
-        $this->server->httpRequest = ($request);
-
-        $conditions = $this->server->getIfConditions();
+        $request = HTTP\Sapi::createFromServerArray($serverVars);
+        $conditions = $this->server->getIfConditions($request);
 
         $compare = array(
 
@@ -122,10 +107,8 @@ class GetIfConditionsTest extends AbstractServer {
             'REQUEST_URI' => '/bla',
         );
 
-        $request = HTTP\Request::createFromServerArray($serverVars);
-        $this->server->httpRequest = ($request);
-
-        $conditions = $this->server->getIfConditions();
+        $request = HTTP\Sapi::createFromServerArray($serverVars);
+        $conditions = $this->server->getIfConditions($request);
 
         $compare = array(
 
@@ -157,10 +140,8 @@ class GetIfConditionsTest extends AbstractServer {
             'HTTP_IF' => '<http://www.example.org/node1> (<opaquelocktoken:token1>) <http://www.example.org/node2> (Not <opaquelocktoken:token2>)',
         );
 
-        $request = HTTP\Request::createFromServerArray($serverVars);
-        $this->server->httpRequest = ($request);
-
-        $conditions = $this->server->getIfConditions();
+        $request = HTTP\Sapi::createFromServerArray($serverVars);
+        $conditions = $this->server->getIfConditions($request);
 
         $compare = array(
 
@@ -197,10 +178,8 @@ class GetIfConditionsTest extends AbstractServer {
             'HTTP_IF' => '<http://www.example.org/node1> (<opaquelocktoken:token1>) (<opaquelocktoken:token2>) <http://www.example.org/node2> (Not <opaquelocktoken:token3>)',
         );
 
-        $request = HTTP\Request::createFromServerArray($serverVars);
-        $this->server->httpRequest = ($request);
-
-        $conditions = $this->server->getIfConditions();
+        $request = HTTP\Sapi::createFromServerArray($serverVars);
+        $conditions = $this->server->getIfConditions($request);
 
         $compare = array(
 
@@ -243,10 +222,8 @@ class GetIfConditionsTest extends AbstractServer {
             'REQUEST_URI' => '/foo',
         );
 
-        $request = HTTP\Request::createFromServerArray($serverVars);
-        $this->server->httpRequest = ($request);
-
-        $conditions = $this->server->getIfConditions();
+        $request = HTTP\Sapi::createFromServerArray($serverVars);
+        $conditions = $this->server->getIfConditions($request);
 
         $compare = array(
 
@@ -272,10 +249,8 @@ class GetIfConditionsTest extends AbstractServer {
             'HTTP_IF' => '<http://www.example.org/> (["etag1"]) (["etag2"])',
         );
 
-        $request = HTTP\Request::createFromServerArray($serverVars);
-        $this->server->httpRequest = ($request);
-
-        $conditions = $this->server->getIfConditions();
+        $request = HTTP\Sapi::createFromServerArray($serverVars);
+        $conditions = $this->server->getIfConditions($request);
 
         $compare = array(
 
@@ -308,10 +283,8 @@ class GetIfConditionsTest extends AbstractServer {
                          '(<opaquelocktoken:token3>) (Not <opaquelocktoken:token4>) (["etag3"])',
         );
 
-        $request = HTTP\Request::createFromServerArray($serverVars);
-        $this->server->httpRequest = ($request);
-
-        $conditions = $this->server->getIfConditions();
+        $request = HTTP\Sapi::createFromServerArray($serverVars);
+        $conditions = $this->server->getIfConditions($request);
 
         $compare = array(
 
